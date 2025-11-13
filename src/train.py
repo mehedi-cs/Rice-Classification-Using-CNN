@@ -1,3 +1,4 @@
+# src/train.py
 import torch
 import numpy as np
 from datetime import datetime
@@ -17,6 +18,12 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, device, n
             optimizer.zero_grad()
             preds = model(imgs)
             loss = criterion(preds, labels)
+            loss.backward()
+            optimizer.step()
+            train_loss.append(loss.item())
+            _, pred = torch.max(preds, 1)
+            correct_train += (pred == labels).sum().item()
+            total_train += labels.size(0)
 
         model.eval()
         correct_val, total_val = 0, 0
@@ -24,6 +31,9 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, device, n
             for imgs, labels in val_loader:
                 imgs, labels = imgs.to(device), labels.to(device)
                 preds = model(imgs)
+                loss = criterion(preds, labels)
+                val_loss.append(loss.item())
+                _, pred = torch.max(preds, 1)
                 correct_val += (pred == labels).sum().item()
                 total_val += labels.size(0)
 
