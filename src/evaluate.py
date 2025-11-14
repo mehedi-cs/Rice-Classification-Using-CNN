@@ -19,4 +19,13 @@ def evaluate_model(model, test_loader, criterion, classes, device):
 
     print("\nClassification Report:\n")
     print(classification_report(y_true, y_pred, target_names=classes))
+
+    cm = confusion_matrix(y_true, y_pred)
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='rocket', xticklabels=classes, yticklabels=classes)
+    plt.xlabel('Predicted'); plt.ylabel('True'); plt.title('Confusion Matrix')
+    plt.tight_layout()
+    plt.savefig('results/confusion_matrix.png')
+    plt.show()
+
     print(f"Average Test Loss: {np.mean(losses):.4f}")
