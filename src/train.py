@@ -1,4 +1,3 @@
-# src/train.py
 import torch
 import numpy as np
 from datetime import datetime
@@ -47,3 +46,18 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, device, n
         print(f"Epoch [{epoch+1}/{num_epochs}] -> "
               f"Train Loss: {train_losses[-1]:.4f}, Val Loss: {val_losses[-1]:.4f}, "
               f"Train Acc: {train_acc:.4f}, Val Acc: {val_acc:.4f}, Duration: {datetime.now()-t0}")
+
+    
+    plt.figure(figsize=(14, 5))
+    plt.subplot(1, 2, 1)
+    plt.plot(train_accs, label='Train Accuracy')
+    plt.plot(val_accs, label='Validation Accuracy')
+    plt.legend(); plt.title("Accuracy"); plt.grid(True)
+    plt.subplot(1, 2, 2)
+    plt.plot(train_losses, label='Train Loss')
+    plt.plot(val_losses, label='Validation Loss')
+    plt.legend(); plt.title("Loss"); plt.grid(True)
+    plt.savefig('results/accuracy_loss_plot.png')
+    plt.show()
+
+    return model
