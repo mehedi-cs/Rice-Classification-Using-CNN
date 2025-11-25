@@ -1,0 +1,12 @@
+torch
+torchvision
+numpy
+pandas
+matplotlib
+seaborn
+split-folders
+scikit-learn
+termcolor
+torchinfo
+torchviz
+pillow
